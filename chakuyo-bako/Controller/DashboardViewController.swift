@@ -29,7 +29,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     var humCal: Double = 0.0
     var presCal: Double = 0.0
     
-    let intervalSecond: TimeInterval = 30
+    var intervalSecond: TimeInterval = 5
     
     let realm = try! Realm()
     let calendar = Calendar(identifier: .gregorian)
@@ -50,6 +50,9 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name(rawValue: "applicationWillEnterForeground"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(viewDidEnterBackground), name: NSNotification.Name(rawValue: "applicationDidEnterBackground"), object: nil)
+        
         formatter.dateFormat = "HH:mm"
         formatter.locale = Locale(identifier: "ja_JP")
         initView()
@@ -58,7 +61,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
         }
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
         
         update()
     }
@@ -217,12 +220,12 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         intervalTimer?.invalidate()
         intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
 
-        
+        print("herehere")
         date = Date()
         // Temporary: 通信が遅くなってきたらち通知するように。
-        if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: -60) {
-            notificationManager.notificationDisconnect(title: "Chakuyo-bakoの通信が遅くなってきたかも",
-                                                       body: "起動して通信ができているか確認してください。")
+        if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: -180) {
+            notificationManager.notificationDisconnect(title: "Chakuyo-bakoの通信が遅くなってきたかもしれません",
+                                                       body: "アプリを起動して通信ができているか確認してください。")
         }
         beforeDate = date
         
@@ -326,5 +329,19 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.clear
+    }
+    
+    // AppDelegate -> applicationWillEnterForegroundの通知
+    @objc func viewWillEnterForeground(notification: NSNotification?) {
+        intervalSecond = 5
+        intervalTimer?.invalidate()
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
+    }
+    
+    // AppDelegate -> applicationDidEnterBackgroundの通知
+    @objc func viewDidEnterBackground(notification: NSNotification?) {
+        intervalSecond = 60
+        intervalTimer?.invalidate()
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
     }
 }
