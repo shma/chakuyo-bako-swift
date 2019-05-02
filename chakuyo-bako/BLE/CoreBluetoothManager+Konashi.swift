@@ -215,6 +215,7 @@ public class CoreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
     
+    
     // Characteristicsを登録する
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
@@ -236,6 +237,8 @@ public class CoreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
                 case "229B300F-03FB-40DA-98A7-B0DEF65C2D4B":
                     i2cRead = characteristic
                     break
+                case "229B3015-03FB-40DA-98A7-B0DEF65C2D4B":
+                    connectedPeripheral.setNotifyValue(true, for: characteristic)
                 default:
                     break
                 }
@@ -287,7 +290,6 @@ public class CoreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     }
     
 
-    
     public func readEnvironmentData() {
         guard let _ = i2cConfig,
             let i2cRead = i2cRead
@@ -312,6 +314,10 @@ public class CoreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
         
         guard let data = characteristic.value else {return}
         
+        if (characteristic.uuid.uuidString == "229B3015-03FB-40DA-98A7-B0DEF65C2D4B") {
+            delegate?.didLowBattery()
+            return
+        }
         
         if (isI2CReady) {
             var environmentData = [Int]()

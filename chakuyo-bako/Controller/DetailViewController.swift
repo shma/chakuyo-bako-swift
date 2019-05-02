@@ -46,6 +46,7 @@ class DetailViewController: UIViewController, BluetoothDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("view did load")
         // Do any additional setup after loading the view.
         bluetoothManager.delegate = self
         
@@ -123,6 +124,7 @@ class DetailViewController: UIViewController, BluetoothDelegate {
     
     // delegate
     func didReadEnvironmentData(tempCal: Double, presCal: Double, humCal: Double) {
+        print("=============didReadEnvironmentData : DetailViewController================")
         print(tempCal, presCal, humCal)
         switch type {
         case .temperature?:
@@ -142,7 +144,7 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         calcEnvironments()
     }
     
-    func calcEnvironments() {
+    private func calcEnvironments() {
         let environmentData = measuringDate.environmentData
         let environmentCount = Double(environmentData.count)
         

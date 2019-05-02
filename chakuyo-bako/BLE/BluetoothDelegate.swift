@@ -112,6 +112,8 @@ public protocol BluetoothDelegate : NSObjectProtocol {
 
     // Konashi Original ここにあるの微妙
     func didReadEnvironmentData(tempCal: Double, presCal: Double, humCal: Double)
+    
+    func didLowBattery()
 }
 
 extension BluetoothDelegate {
@@ -152,4 +154,6 @@ extension BluetoothDelegate {
 
 
     func didReadEnvironmentData(tempCal: Double, presCal: Double, humCal: Double) {}
+    
+    func didLowBattery() {}
 }

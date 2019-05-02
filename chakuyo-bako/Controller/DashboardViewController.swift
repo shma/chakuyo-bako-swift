@@ -93,7 +93,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        isViewAppear = false
+        // isViewAppear = false
     }
     
     @objc func update() {
@@ -218,9 +218,10 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     **/
     func didReadEnvironmentData(tempCal: Double, presCal: Double, humCal: Double) {
         intervalTimer?.invalidate()
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
 
-        print("herehere")
+        print("=============didReadEnvironmentData================")
+        
         date = Date()
         // Temporary: 通信が遅くなってきたらち通知するように。
         if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: -180) {
@@ -262,6 +263,11 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
             connectingView.isHidden = true
             tableView.reloadData()
         }
+    }
+    
+    func didLowBattery() {
+        notificationManager.notificationDisconnect(title: "Chakuyo-bakoの電池が少なくなっています",
+                                                   body: "Chakuyo-bakoの電池を交換してあげてください。")
     }
 
     
@@ -335,13 +341,13 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     @objc func viewWillEnterForeground(notification: NSNotification?) {
         intervalSecond = 5
         intervalTimer?.invalidate()
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
     
     // AppDelegate -> applicationDidEnterBackgroundの通知
     @objc func viewDidEnterBackground(notification: NSNotification?) {
         intervalSecond = 60
         intervalTimer?.invalidate()
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
 }
