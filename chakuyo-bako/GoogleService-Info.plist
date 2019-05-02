@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1097865227076-g5pt6njnaaqsm04m8a2bicnrtvel7jlb.apps.googleusercontent.com</string>
+	<string>1097865227076-jlvtc1ckkudipk294nq0qcaq6oh4qr5r.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1097865227076-g5pt6njnaaqsm04m8a2bicnrtvel7jlb</string>
+	<string>com.googleusercontent.apps.1097865227076-jlvtc1ckkudipk294nq0qcaq6oh4qr5r</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAN7RiZfzq98U2AAGXscEx-JuH6-NIjrAI</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>work.emno.chakuyo-bako</string>
+	<string>work.emno.chakuyo-bako.chakuyo-bako</string>
 	<key>PROJECT_ID</key>
 	<string>chakuyo-bako</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1097865227076:ios:43b80ef56609ef62</string>
+	<string>1:1097865227076:ios:6850d31241712625</string>
 	<key>DATABASE_URL</key>
 	<string>https://chakuyo-bako.firebaseio.com</string>
 </dict>

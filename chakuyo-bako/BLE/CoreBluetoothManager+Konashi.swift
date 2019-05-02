@@ -156,15 +156,14 @@ public class CoreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     }
     
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        guard let _ = advertisementData["kCBAdvDataLocalName"] else {
+        guard let name = peripheral.name else {
             return
         }
         
-        if !peripherals.contains(peripheral) {
+        if name.contains("konashi") && !peripherals.contains(peripheral) {
             peripherals.append(peripheral)
+            delegate?.didDiscoverPeripheral(peripheral, advertisementData: advertisementData, RSSI: RSSI)
         }
-        
-        delegate?.didDiscoverPeripheral(peripheral, advertisementData: advertisementData, RSSI: RSSI)
     }
     
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {

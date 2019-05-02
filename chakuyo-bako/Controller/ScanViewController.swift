@@ -103,7 +103,9 @@ class ScanViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: Table View Datasource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ScanTableViewCell = tableView.dequeueReusableCell(withIdentifier: "ScanTableViewCell", for: indexPath) as! ScanTableViewCell
-        cell.identifierName.text = peripheralList[indexPath.row].name
+        
+        let split = peripheralList[indexPath.row].name?.components(separatedBy: "-")        
+        cell.identifierName.text = split?[1] ?? ""
         return cell
     }
     

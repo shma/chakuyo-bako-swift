@@ -7,6 +7,7 @@ target 'chakuyo-bako' do
 
   # Pods for chakuyo-bako
   pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
   pod 'RealmSwift'
   pod 'NVActivityIndicatorView'
 
