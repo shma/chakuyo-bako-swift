@@ -21,7 +21,7 @@ public class CoreBluetoothManager: NSObject, CBCentralManagerDelegate, CBPeriphe
     let OSRST = 1
     let OSRSP = 1
     let OSRSH = 1           //Humidity oversampling x 1
-    let NORMAL_MODE = 3           //Normal mode
+    let NORMAL_MODE = 2           //Normal mode
     let TSB = 5         //Tstandby 1000ms
     let FILTER = 0           //Filter off
     let SPI3WEN = 0         //3-wire SPI Disable
