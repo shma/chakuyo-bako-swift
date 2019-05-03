@@ -239,7 +239,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         
         date = Date()
         // Temporary: 通信が遅くなってきたらち通知するように。
-        if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: -180) {
+        if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: intervalSecond * 1.5) {
             notificationManager.notificationDisconnect(title: "Chakuyo-bakoの通信が遅くなってきたかもしれません",
                                                        body: "アプリを起動して通信ができているか確認してください。")
         }
