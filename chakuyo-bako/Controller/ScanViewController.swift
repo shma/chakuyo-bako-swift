@@ -31,7 +31,6 @@ class ScanViewController: UIViewController, UITableViewDelegate, UITableViewData
         isScanning = false
         
         if bluetoothManager.connectedPeripheral != nil {
-            print("connect something")
             bluetoothManager.disconnectPeripheral()
         }
     }

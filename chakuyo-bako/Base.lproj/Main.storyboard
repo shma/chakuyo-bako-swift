@@ -308,13 +308,59 @@ Chakuyo-bakoを探しましょう</string>
                                                     <constraint firstItem="Oei-3d-4oD" firstAttribute="leading" secondItem="Wff-VC-ycr" secondAttribute="leading" constant="20" id="jYL-QR-Q5c"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uqP-DC-ndf">
+                                                <rect key="frame" x="20" y="396" width="335" height="178"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hHd-LQ-b0K">
+                                                        <rect key="frame" x="20" y="15" width="295" height="148"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chakuyo-bakoからの一言" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mQo-2F-oTE">
+                                                                <rect key="frame" x="0.0" y="0.0" width="295" height="68"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gKd-Bb-TpS">
+                                                                <rect key="frame" x="0.0" y="68" width="295" height="80"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="考え中・・・" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCX-Jg-Ed8">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="215" height="80"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HakaseIcon" translatesAutoresizingMaskIntoConstraints="NO" id="N0M-dl-uhO">
+                                                                        <rect key="frame" x="215" y="0.0" width="80" height="80"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="80" id="arl-QL-0kv"/>
+                                                                            <constraint firstAttribute="width" constant="80" id="xg2-Yb-wqe"/>
+                                                                        </constraints>
+                                                                    </imageView>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="hHd-LQ-b0K" secondAttribute="bottom" constant="15" id="090-gN-Enk"/>
+                                                    <constraint firstItem="hHd-LQ-b0K" firstAttribute="leading" secondItem="uqP-DC-ndf" secondAttribute="leading" constant="20" id="P5B-CJ-xIf"/>
+                                                    <constraint firstAttribute="trailing" secondItem="hHd-LQ-b0K" secondAttribute="trailing" constant="20" id="irz-4E-FH0"/>
+                                                    <constraint firstItem="hHd-LQ-b0K" firstAttribute="top" secondItem="uqP-DC-ndf" secondAttribute="top" constant="15" id="vqV-Ft-SZx"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="uqP-DC-ndf" secondAttribute="trailing" constant="20" id="99d-xo-XAo"/>
+                                            <constraint firstItem="uqP-DC-ndf" firstAttribute="top" secondItem="Wff-VC-ycr" secondAttribute="bottom" constant="19" id="BQt-kr-lNW"/>
+                                            <constraint firstAttribute="bottom" secondItem="uqP-DC-ndf" secondAttribute="bottom" constant="93" id="ELY-8M-bDc"/>
                                             <constraint firstItem="Wff-VC-ycr" firstAttribute="top" secondItem="Zhl-xg-aJw" secondAttribute="top" constant="28" id="I7e-mn-3Vs"/>
                                             <constraint firstItem="Wff-VC-ycr" firstAttribute="leading" secondItem="Zhl-xg-aJw" secondAttribute="leading" constant="20" id="MvB-VG-Awu"/>
                                             <constraint firstAttribute="bottom" secondItem="Wff-VC-ycr" secondAttribute="bottom" constant="290" id="WZp-2X-mhW"/>
                                             <constraint firstItem="Wff-VC-ycr" firstAttribute="centerX" secondItem="Zhl-xg-aJw" secondAttribute="centerX" id="egH-3d-0Vb"/>
+                                            <constraint firstItem="uqP-DC-ndf" firstAttribute="leading" secondItem="Zhl-xg-aJw" secondAttribute="leading" constant="20" id="rrm-Nw-hVw"/>
                                             <constraint firstAttribute="trailing" secondItem="Wff-VC-ycr" secondAttribute="trailing" constant="20" id="s2E-Ep-dJr"/>
+                                            <constraint firstItem="uqP-DC-ndf" firstAttribute="centerX" secondItem="Zhl-xg-aJw" secondAttribute="centerX" id="zoH-bI-8Ta"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -338,6 +384,8 @@ Chakuyo-bakoを探しましょう</string>
                         <viewLayoutGuide key="safeArea" id="3On-Gw-r0o"/>
                     </view>
                     <connections>
+                        <outlet property="adviseTextLabel" destination="LCX-Jg-Ed8" id="2zI-jE-PJJ"/>
+                        <outlet property="adviseView" destination="uqP-DC-ndf" id="uMU-62-5mT"/>
                         <outlet property="chartView" destination="Zuv-ek-ZLC" id="O3i-4h-jSb"/>
                         <outlet property="detailAverageLabel" destination="X9o-uc-Hzk" id="ot1-qM-J8W"/>
                         <outlet property="detailAverageValueLabel" destination="RIJ-vh-gYo" id="ahR-uL-g0I"/>
@@ -495,6 +543,7 @@ Chakuyo-bakoを探しましょう</string>
     <resources>
         <image name="CogIcon" width="24" height="25"/>
         <image name="EmptyState" width="571" height="838"/>
+        <image name="HakaseIcon" width="375" height="426"/>
         <image name="SearchIcon" width="27" height="27"/>
     </resources>
 </document>

@@ -9,6 +9,8 @@
 import UIKit
 import RealmSwift
 import Charts
+import Firebase
+import FirebaseFirestore
 
 class DetailViewController: UIViewController, BluetoothDelegate {
     
@@ -17,16 +19,23 @@ class DetailViewController: UIViewController, BluetoothDelegate {
     var measuringDate: MeasuringDate = MeasuringDate()
     var type: Environment!
     
+    var currentVal: Double = 0.0
+    var typeValJa: String = ""
+    var typeValEn: String = ""
+    
     var maxValue: Double = 0.0
     var minValue: Double = 0.0
     var averageValue: Double = 0.0
     var differenceValue: Double = 0.0
-    
     var detailValue: Double = 0.0
+    
     var unit: String =  ""
+    
+    @IBOutlet weak var adviseTextLabel: UILabel!
     
     @IBOutlet weak var summaryView: UIView!
     @IBOutlet weak var parentView: UIView!
+    @IBOutlet weak var adviseView: UIView!
     
     @IBOutlet weak var headerTypeLabel: UILabel!
     @IBOutlet weak var headerValueLabel: UILabel!
@@ -45,8 +54,7 @@ class DetailViewController: UIViewController, BluetoothDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("view did load")
+        
         // Do any additional setup after loading the view.
         bluetoothManager.delegate = self
         
@@ -61,7 +69,6 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         }
         
         measuringDate = newDate
-
         
         self.view.backgroundColor = UIColor(red: 241/255, green: 242/255, blue: 244/255, alpha: 1)
         parentView.backgroundColor = UIColor(red: 241/255, green: 242/255, blue: 244/255, alpha: 1)
@@ -72,10 +79,17 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         summaryView.layer.shadowRadius = 5
         summaryView.layer.shadowOffset = CGSize(width: 0, height: 10)
         
+        adviseView.backgroundColor = .white
+        adviseView.layer.cornerRadius = 8
+        adviseView.layer.shadowOpacity = 0.25
+        adviseView.layer.shadowRadius = 5
+        adviseView.layer.shadowOffset = CGSize(width: 0, height: 10)
+        
         switch type {
         case .temperature?:
             unit = "℃"
-            headerTypeLabel.text = "気温"
+            typeValJa = "気温"
+            typeValEn = "temperature"
             detailMaxLabel.text = "最高気温"
             detailMinLabel.text = "最低気温"
             detailDifferenceLabel.text = "気温差"
@@ -84,7 +98,8 @@ class DetailViewController: UIViewController, BluetoothDelegate {
             break
         case .humidity?:
             unit = "%"
-            headerTypeLabel.text = "湿度"
+            typeValJa = "湿度"
+            typeValEn = "humidity"
             detailMaxLabel.text = "最高湿度"
             detailMinLabel.text = "最低湿度"
             detailDifferenceLabel.text = "湿度差"
@@ -93,7 +108,8 @@ class DetailViewController: UIViewController, BluetoothDelegate {
             break
         case .pressure?:
             unit = "hPa"
-            headerTypeLabel.text = "気圧"
+            typeValJa = "気圧"
+            typeValEn = "pressure"
             detailMaxLabel.text = "最高気圧"
             detailMinLabel.text = "最低気圧"
             detailDifferenceLabel.text = "気圧差"
@@ -102,6 +118,8 @@ class DetailViewController: UIViewController, BluetoothDelegate {
             break
         case .none: break
         }
+        
+        headerTypeLabel.text = typeValJa
         
         chartView.dragEnabled = false
         chartView.highlightPerTapEnabled = false
@@ -116,7 +134,10 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         chartView.noDataText = "データを取得しています"
         // バッティングしない？？
         bluetoothManager.readEnvironmentData()
+        
+        getAdvise()
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         bluetoothManager.delegate = nil
@@ -124,8 +145,6 @@ class DetailViewController: UIViewController, BluetoothDelegate {
     
     // delegate
     func didReadEnvironmentData(tempCal: Double, presCal: Double, humCal: Double) {
-        print("=============didReadEnvironmentData : DetailViewController================")
-        print(tempCal, presCal, humCal)
         switch type {
         case .temperature?:
             detailValue = ceil(tempCal * 100) / 100
@@ -144,10 +163,44 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         calcEnvironments()
     }
     
+    private func getAdvise() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日"
+        formatter.locale = Locale(identifier: "ja_JP")
+        
+        let db = Firestore.firestore()
+        
+
+        db.collection(typeValEn).whereField("value", isEqualTo: currentVal).getDocuments() { (querySnapshot, err) in
+            if let _ = err {
+                self.adviseTextLabel.text = "気温・湿度・気圧で知ってる値があったら教えるよ！"
+            } else {
+                let documents = querySnapshot!.documents
+                
+                if documents.count == 0 {
+                    self.adviseTextLabel.text = "気温・湿度・気圧で知ってる値があったら教えるよ！"
+                    return
+                }
+                
+                let randVal = Int.random(in: 0 ... (documents.count - 1))
+                
+                let data = documents[randVal].data()
+                let timestamp = data["date"] as? Timestamp
+                let dateString = formatter.string(from: (timestamp?.dateValue())!)
+                
+                guard let nameString = data["name"] else {
+                    return
+                }
+                
+                self.adviseTextLabel.text = "\(dateString)の\(nameString)と同じくらいの\(self.typeValJa)だよ。"
+            }
+        }
+    }
+
+    
     private func calcEnvironments() {
         let environmentData = measuringDate.environmentData
         let environmentCount = Double(environmentData.count)
-        
         
         switch type {
         case .temperature?:

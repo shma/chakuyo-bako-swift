@@ -45,13 +45,81 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             let next = storyboard!.instantiateViewController(withIdentifier: "ExportViewController") as? ExportViewController
             self.navigationController?.pushViewController(next!, animated: true)
             break
+        case 3:
+            // styleをActionSheetに設定
+            let alertSheet = UIAlertController(title: "データの間隔を設定", message: "間隔を選択してください", preferredStyle: UIAlertController.Style.actionSheet)
+            
+            // 自分の選択肢を生成
+            let action1 = UIAlertAction(title: "5秒に1回", style: UIAlertAction.Style.default, handler: {
+                (action: UIAlertAction!) in
+                guard let setting = self.realm.objects(Setting.self).first else {
+                    return
+                }
+                
+                try! self.realm.write {
+                    setting.intervalTime = 5
+                    self.realm.add(setting)
+                }
+                self.tableView.reloadData()
+            })
+            let action2 = UIAlertAction(title: "30秒に1回", style: UIAlertAction.Style.default, handler: {
+                (action: UIAlertAction!) in
+                guard let setting = self.realm.objects(Setting.self).first else {
+                    return
+                }
+                
+                try! self.realm.write {
+                    setting.intervalTime = 30
+                    self.realm.add(setting)
+                }
+                self.tableView.reloadData()
+            })
+            let action3 = UIAlertAction(title: "5分に1回（推奨）", style: UIAlertAction.Style.default, handler: {
+                (action: UIAlertAction!) in
+                guard let setting = self.realm.objects(Setting.self).first else {
+                    return
+                }
+                
+                try! self.realm.write {
+                    setting.intervalTime = 300
+                    self.realm.add(setting)
+                }
+                self.tableView.reloadData()
+            })
+            
+            let action4 = UIAlertAction(title: "30分に1回", style: UIAlertAction.Style.default, handler: {
+                (action: UIAlertAction!) in
+                guard let setting = self.realm.objects(Setting.self).first else {
+                    return
+                }
+                
+                try! self.realm.write {
+                    setting.intervalTime = 1800
+                    self.realm.add(setting)
+                }
+                self.tableView.reloadData()
+            })
+            
+            let action5 = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler: {
+                (action: UIAlertAction!) in
+            })
+            
+            // アクションを追加.
+            alertSheet.addAction(action1)
+            alertSheet.addAction(action2)
+            alertSheet.addAction(action3)
+            alertSheet.addAction(action4)
+            alertSheet.addAction(action5)
+            
+            self.present(alertSheet, animated: true, completion: nil)
+            break
         default :
             break
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     @objc func switchTriggered() {
@@ -78,6 +146,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             break
         case 2:
             newCell.textLabel?.text = "データをエクスポートする"
+            break;
+        case 3:
+            
+            
+            guard let setting = self.realm.objects(Setting.self).first else {
+                break
+            }
+            var viewableSecond = ""
+            if (setting.intervalTime > 60) {
+                viewableSecond = "(\(Int(setting.intervalTime / 60))分に1回)"
+            } else {
+                viewableSecond = "(\(Int(setting.intervalTime))秒に1回)"
+            }
+            
+            newCell.textLabel?.text = "データ取得の間隔を設定する" + viewableSecond
+            
             break;
         default :
             break

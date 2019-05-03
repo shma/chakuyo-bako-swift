@@ -1,4 +1,10 @@
 PODS:
+  - BoringSSL-GRPC (0.0.2):
+    - BoringSSL-GRPC/Implementation (= 0.0.2)
+    - BoringSSL-GRPC/Interface (= 0.0.2)
+  - BoringSSL-GRPC/Implementation (0.0.2):
+    - BoringSSL-GRPC/Interface (= 0.0.2)
+  - BoringSSL-GRPC/Interface (0.0.2)
   - Charts (3.3.0):
     - Charts/Core (= 3.3.0)
   - Charts/Core (3.3.0)
@@ -7,6 +13,9 @@ PODS:
     - FirebaseAnalytics (= 5.8.1)
   - Firebase/CoreOnly (5.20.2):
     - FirebaseCore (= 5.4.1)
+  - Firebase/Firestore (5.20.2):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (= 1.2.1)
   - Firebase/Messaging (5.20.2):
     - Firebase/CoreOnly
     - FirebaseMessaging (= 3.5.0)
@@ -20,9 +29,25 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
   - FirebaseAnalyticsInterop (1.2.0)
+  - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.4.1):
     - GoogleUtilities/Environment (~> 5.2)
     - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseFirestore (1.2.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - FirebaseFirestore/abseil-cpp (= 1.2.1)
+    - "gRPC-C++ (= 0.0.6)"
+    - leveldb-library (~> 1.20)
+    - nanopb (~> 0.3.901)
+    - Protobuf (~> 3.1)
+  - FirebaseFirestore/abseil-cpp (1.2.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - "gRPC-C++ (= 0.0.6)"
+    - leveldb-library (~> 1.20)
+    - nanopb (~> 0.3.901)
+    - Protobuf (~> 3.1)
   - FirebaseInstanceID (3.8.1):
     - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
@@ -59,6 +84,23 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
+  - "gRPC-C++ (0.0.6)":
+    - "gRPC-C++/Implementation (= 0.0.6)"
+    - "gRPC-C++/Interface (= 0.0.6)"
+  - "gRPC-C++/Implementation (0.0.6)":
+    - "gRPC-C++/Interface (= 0.0.6)"
+    - gRPC-Core (= 1.17.0)
+    - nanopb (~> 0.3)
+  - "gRPC-C++/Interface (0.0.6)"
+  - gRPC-Core (1.17.0):
+    - gRPC-Core/Implementation (= 1.17.0)
+    - gRPC-Core/Interface (= 1.17.0)
+  - gRPC-Core/Implementation (1.17.0):
+    - BoringSSL-GRPC (= 0.0.2)
+    - gRPC-Core/Interface (= 1.17.0)
+    - nanopb (~> 0.3)
+  - gRPC-Core/Interface (1.17.0)
+  - leveldb-library (1.20)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -77,21 +119,28 @@ PODS:
 DEPENDENCIES:
   - Charts
   - Firebase/Core
+  - Firebase/Firestore
   - Firebase/Messaging
   - NVActivityIndicatorView
   - RealmSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BoringSSL-GRPC
     - Charts
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
+    - FirebaseAuthInterop
     - FirebaseCore
+    - FirebaseFirestore
     - FirebaseInstanceID
     - FirebaseMessaging
     - GoogleAppMeasurement
     - GoogleUtilities
+    - "gRPC-C++"
+    - gRPC-Core
+    - leveldb-library
     - nanopb
     - NVActivityIndicatorView
     - Protobuf
@@ -99,21 +148,27 @@ SPEC REPOS:
     - RealmSwift
 
 SPEC CHECKSUMS:
+  BoringSSL-GRPC: 2a230d9cd93e7ce39916044f645cebb31f37dde6
   Charts: ec1f57f9340054155691e84d4544a1d239d382c5
   Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
   FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
+  FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: f1a9a8be1aee4bf71a2fc0f4096df6788bdfda61
+  FirebaseFirestore: faca891c0f0d1d6c10c793473e2f6a29d75014b5
   FirebaseInstanceID: a122b0c258720cf250551bb2bedf48c699f80d90
   FirebaseMessaging: 4235f949ce1c4e827aeb19705ba5c53f9b85aa10
   GoogleAppMeasurement: ffe513e90551844a739e7bcbb1d2aca1c28a4338
   GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
+  "gRPC-C++": e76441995900ac90e9bd98644ab4733f12521edf
+  gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
+  leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
   Realm: 864477d028db77f7c5a0cba64a4892ad53db128a
   RealmSwift: 12b8262fc08020b47de4fd88eb3d5c9425b34ec7
 
-PODFILE CHECKSUM: ec868ab7c4865e9028d4849539a603edb823bc96
+PODFILE CHECKSUM: 05c06ab858d32616f50d404903f231a518580af9
 
 COCOAPODS: 1.6.1

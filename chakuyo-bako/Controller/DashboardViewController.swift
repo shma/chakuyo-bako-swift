@@ -29,7 +29,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     var humCal: Double = 0.0
     var presCal: Double = 0.0
     
-    var intervalSecond: TimeInterval = 5
+    var intervalSecond: Double = 300
     
     let realm = try! Realm()
     let calendar = Calendar(identifier: .gregorian)
@@ -50,11 +50,13 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name(rawValue: "applicationWillEnterForeground"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(viewDidEnterBackground), name: NSNotification.Name(rawValue: "applicationDidEnterBackground"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name(rawValue: "applicationWillEnterForeground"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(viewDidEnterBackground), name: NSNotification.Name(rawValue: "applicationDidEnterBackground"), object: nil)
         
         formatter.dateFormat = "HH:mm"
         formatter.locale = Locale(identifier: "ja_JP")
+        
+        // ビューを初期化
         initView()
         
         // バックグラウンドで処理を登録
@@ -70,6 +72,19 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         connectingView.isHidden = false
         self.isViewAppear = true
         bluetoothManager.delegate = self
+        
+        // read settings
+        var setting = realm.objects(Setting.self).first
+        if setting == nil {
+            let firstSetting = Setting()
+            try! realm.write {
+                firstSetting.intervalTime = 300
+                realm.add(firstSetting)
+            }
+            setting = firstSetting
+        }
+        intervalSecond = setting!.intervalTime
+        
         
         // Init Realm Database
         let startDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
@@ -293,6 +308,18 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let next = storyboard!.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController
         next?.type = Environment(rawValue: indexPath.row)
+        switch indexPath.row {
+            case Environment.temperature.rawValue:
+                next?.currentVal = ceil(tempCal * 10) / 10
+                break
+            case Environment.humidity.rawValue:
+                next?.currentVal = ceil(humCal)
+                break
+            case Environment.pressure.rawValue:
+                next?.currentVal = ceil(presCal * 10) / 10
+                break
+            default: break
+        }
         self.navigationController?.pushViewController(next!, animated: true)
     }
     
@@ -339,14 +366,14 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // AppDelegate -> applicationWillEnterForegroundの通知
     @objc func viewWillEnterForeground(notification: NSNotification?) {
-        intervalSecond = 5
+        intervalSecond = 300
         intervalTimer?.invalidate()
         intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
     
     // AppDelegate -> applicationDidEnterBackgroundの通知
     @objc func viewDidEnterBackground(notification: NSNotification?) {
-        intervalSecond = 60
+        intervalSecond = 300
         intervalTimer?.invalidate()
         intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }

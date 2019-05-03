@@ -34,6 +34,7 @@
 		BC9175632275B00000149C3C /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9175622275B00000149C3C /* SettingViewController.swift */; };
 		BCA9C9792279B727005339CC /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA9C9782279B727005339CC /* ExportViewController.swift */; };
 		BCA9C97C227AB29F005339CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCA9C97B227AB29F005339CC /* GoogleService-Info.plist */; };
+		BCA9C97E227C3075005339CC /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA9C97D227C3075005339CC /* Setting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		BCA9C9782279B727005339CC /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		BCA9C97A227A92FC005339CC /* chakuyo-bako.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "chakuyo-bako.entitlements"; sourceTree = "<group>"; };
 		BCA9C97B227AB29F005339CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BCA9C97D227C3075005339CC /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		EA63A2B6169523F044DE6EE8 /* Pods_chakuyo_bakoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_chakuyo_bakoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				BC91754A2273CF2A00149C3C /* EnvironmentData.swift */,
+				BCA9C97D227C3075005339CC /* Setting.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -484,24 +487,32 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-chakuyo-bako/Pods-chakuyo-bako-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,6 +533,7 @@
 				BC5CC6C82270764C003800DE /* DashboardViewController.swift in Sources */,
 				BC69D23F226CA2C5006DD5F8 /* AppDelegate.swift in Sources */,
 				BC9175632275B00000149C3C /* SettingViewController.swift in Sources */,
+				BCA9C97E227C3075005339CC /* Setting.swift in Sources */,
 				BC91755F2275583500149C3C /* LoadingView.swift in Sources */,
 				BC917561227593AC00149C3C /* NotificationManager.swift in Sources */,
 				BC91755722749F3400149C3C /* DashboardTableViewCell.swift in Sources */,
