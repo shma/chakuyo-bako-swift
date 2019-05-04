@@ -63,7 +63,7 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
             UIApplication.shared.endBackgroundTask(self.backgroundTaskIdentifier)
         }
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: false)
+        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
         update()
     }
@@ -78,13 +78,12 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
         if setting == nil {
             let firstSetting = Setting()
             try! realm.write {
-                firstSetting.intervalTime = 300
+                firstSetting.intervalTime = 60
                 realm.add(firstSetting)
             }
             setting = firstSetting
         }
         intervalSecond = setting!.intervalTime
-        
         
         // Init Realm Database
         let startDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
@@ -232,14 +231,12 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
      * MARK - BluetoothDelegate
     **/
     func didReadEnvironmentData(tempCal: Double, presCal: Double, humCal: Double) {
-        intervalTimer?.invalidate()
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
-
-        print("=============didReadEnvironmentData================")
+         intervalTimer?.invalidate()
+         intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
         date = Date()
         // Temporary: 通信が遅くなってきたらち通知するように。
-        if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: intervalSecond * 1.5) {
+        if UIApplication.shared.applicationState == .background &&  beforeDate < Date(timeIntervalSinceNow: -(intervalSecond * 1.5)) {
             notificationManager.notificationDisconnect(title: "Chakuyo-bakoの通信が遅くなってきたかもしれません",
                                                        body: "アプリを起動して通信ができているか確認してください。")
         }
@@ -366,15 +363,15 @@ class DashboardViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // AppDelegate -> applicationWillEnterForegroundの通知
     @objc func viewWillEnterForeground(notification: NSNotification?) {
-        intervalSecond = 300
-        intervalTimer?.invalidate()
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+//        intervalTimer?.invalidate()
+//        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
     
     // AppDelegate -> applicationDidEnterBackgroundの通知
     @objc func viewDidEnterBackground(notification: NSNotification?) {
-        intervalSecond = 300
-        intervalTimer?.invalidate()
-        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+//        intervalTimer?.invalidate()
+//        intervalTimer = Timer.scheduledTimer(timeInterval: intervalSecond, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        
     }
+    
 }

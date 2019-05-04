@@ -187,6 +187,7 @@
 		BC69D23D226CA2C5006DD5F8 /* chakuyo-bako */ = {
 			isa = PBXGroup;
 			children = (
+				BCA9C97F227C6D64005339CC /* Realm */,
 				BCA9C97A227A92FC005339CC /* chakuyo-bako.entitlements */,
 				BCA9C97B227AB29F005339CC /* GoogleService-Info.plist */,
 				BC69D23E226CA2C5006DD5F8 /* AppDelegate.swift */,
@@ -254,6 +255,13 @@
 				BCA9C9782279B727005339CC /* ExportViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		BCA9C97F227C6D64005339CC /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		D25FFCAEB70E1946CC316891 /* Pods */ = {

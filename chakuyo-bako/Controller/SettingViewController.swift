@@ -74,7 +74,20 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 self.tableView.reloadData()
             })
-            let action3 = UIAlertAction(title: "5分に1回（推奨）", style: UIAlertAction.Style.default, handler: {
+            let action3 = UIAlertAction(title: "1分に1回（推奨）", style: UIAlertAction.Style.default, handler: {
+                (action: UIAlertAction!) in
+                guard let setting = self.realm.objects(Setting.self).first else {
+                    return
+                }
+                
+                try! self.realm.write {
+                    setting.intervalTime = 60
+                    self.realm.add(setting)
+                }
+                self.tableView.reloadData()
+            })
+            
+            let action4 = UIAlertAction(title: "5分に1回", style: UIAlertAction.Style.default, handler: {
                 (action: UIAlertAction!) in
                 guard let setting = self.realm.objects(Setting.self).first else {
                     return
@@ -82,19 +95,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 try! self.realm.write {
                     setting.intervalTime = 300
-                    self.realm.add(setting)
-                }
-                self.tableView.reloadData()
-            })
-            
-            let action4 = UIAlertAction(title: "30分に1回", style: UIAlertAction.Style.default, handler: {
-                (action: UIAlertAction!) in
-                guard let setting = self.realm.objects(Setting.self).first else {
-                    return
-                }
-                
-                try! self.realm.write {
-                    setting.intervalTime = 1800
                     self.realm.add(setting)
                 }
                 self.tableView.reloadData()

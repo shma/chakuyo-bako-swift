@@ -31,7 +31,7 @@ class ExportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let newCell = tableView.dequeueReusableCell(withIdentifier: "debugCell", for: indexPath)
         newCell.textLabel?.text = "\(date), \(envdata.temperture), \(ceil(envdata.humidity * 100) / 100) , \(envdata.pressure)"
-        
+        newCell.selectionStyle = .none
         return newCell
     }
     
@@ -93,7 +93,6 @@ class ExportViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let dataPath = documentsPath + "/" + "chakuyobako.csv"
         
         if( FileManager.default.fileExists( atPath: dataPath) ) {
-            print("ファイルあり")
             let manager = FileManager()
             do {
                 try manager.removeItem(atPath: dataPath)
@@ -102,7 +101,7 @@ class ExportViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             
         } else {
-            print("ファイルなし")
+            
         }
         
         return dataPath

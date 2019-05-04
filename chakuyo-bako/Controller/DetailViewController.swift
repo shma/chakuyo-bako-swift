@@ -161,6 +161,32 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         headerValueLabel.text = String(detailValue) + unit
         drawChart(chartView: chartView, type: type)
         calcEnvironments()
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let date = Date()
+        let environmentData = EnvironmentData()
+        environmentData.humidity = humCal
+        environmentData.pressure = presCal
+        environmentData.temperture = tempCal
+        environmentData.measuringDate = date
+        let startDate = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
+        let endDate = calendar.date(bySettingHour: 23, minute: 59, second: 59, of: Date())
+        guard let _ = realm.objects(MeasuringDate.self).filter("date >= %@ AND date < %@", startDate!, endDate!).first else {
+            let newDate = MeasuringDate()
+            newDate.date = date
+            
+            try! realm.write {
+                newDate.environmentData.append(environmentData)
+                realm.add(newDate)
+            }
+            self.measuringDate = newDate
+            return
+        }
+        
+        try! realm.write {
+            measuringDate.environmentData.append(environmentData)
+            realm.add(measuringDate)
+        }
     }
     
     private func getAdvise() {
@@ -169,7 +195,6 @@ class DetailViewController: UIViewController, BluetoothDelegate {
         formatter.locale = Locale(identifier: "ja_JP")
         
         let db = Firestore.firestore()
-        
 
         db.collection(typeValEn).whereField("value", isEqualTo: currentVal).getDocuments() { (querySnapshot, err) in
             if let _ = err {
